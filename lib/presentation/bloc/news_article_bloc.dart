@@ -27,7 +27,7 @@ class NewsArticleBloc extends Bloc<NewsArticlesEvent, NewsArticlesState> {
 
     on<OnLoadNextPage>((event, emit) async {
       emit(NewsArticlesLoadingNextPageState());
-      currentPage = event.currrentPage + 1;
+      currentPage = currentPage + 1;
       final _res =
           await _getNewsArticle.execute(currentPage, pageSize, languageCode);
       _res.fold((failure) {

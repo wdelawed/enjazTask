@@ -22,6 +22,5 @@ class OnLoadNewsPage implements NewsArticlesEvent {
 }
 
 class OnLoadNextPage extends NewsArticlesEvent {
-  final int currrentPage;
-  const OnLoadNextPage({required this.currrentPage});
+  const OnLoadNextPage();
 }
