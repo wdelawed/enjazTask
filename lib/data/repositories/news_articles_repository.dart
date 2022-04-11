@@ -19,10 +19,12 @@ class NewsArticlesRepositoryImp implements NewsArticlesRepository {
       final res = await dataSource.getNewsArticles(page, size, langCode);
       return Right(res);
     } on ServerException {
-      return const Left(ServerFailure(''));
+      return Left(
+          ServerFailure(langCode == "ar" ? 'خطأ في السيرفر' : 'server Error'));
     } on SocketException {
-      //TODO: localize exception messages
-      return const Left(ConnectionFailure('failed to connect to the server'));
+      return Left(ConnectionFailure(langCode == "ar"
+          ? 'فشل في الاتصال'
+          : 'failed to connect to the server'));
     }
   }
 }

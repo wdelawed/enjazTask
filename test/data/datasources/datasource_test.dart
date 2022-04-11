@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:interviewtask/data/constants.dart';
 import 'package:interviewtask/data/datasources/remote_data_source.dart';
 import 'package:interviewtask/data/exception.dart';
@@ -9,40 +8,36 @@ import 'package:mockito/mockito.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../helpers/json_reader.dart';
 import '../../helpers/test_helper.mocks.dart';
 
 void main() {
   late MockHttpClient mockHttpClient;
+  late Client httpClient;
   late RemoteDataSourceImpl dataSource;
+  late RemoteDataSourceImpl realDataSource;
 
   setUp(() {
     mockHttpClient = MockHttpClient();
     dataSource = RemoteDataSourceImpl(client: mockHttpClient);
+    httpClient = Client();
+    realDataSource = RemoteDataSourceImpl(client: httpClient);
+  });
 
-    group('get news articles test', () async {
-      final tNewsArticles = (json.decode(readJson(
-              'helpers/dummy_data/dummy_news_articles.json"'))['value'] as List)
-          .map((e) => NewsArticleModel.fromJson(e))
-          .toList();
-      test('should return list of news articles if response code is 200', () {
-        //arrange
-        when(mockHttpClient.get(Uri.parse(Urls.newsUrl(1, 10, "ar"))))
-            .thenAnswer((realInvocation) async => http.Response(
-                readJson("helpers/dummy_data/dummy_news_articles.json"), 200));
-      });
-
+  group('get news articles test', () {
+    test('should return a valid news articles list ', () async {
       //act
-      final result = await dataSource.getNewsArticles(1, 10, "ar");
+      final result = await realDataSource.getNewsArticles(1, 10, "ar");
 
       //assert
-      expect(result, equals(tNewsArticles));
+      expect(result, isInstanceOf<List<NewsArticleModel>>());
     });
 
     test('should throw server exception when the response code is 404 ', () {
       //arrange
-      when(mockHttpClient.get(Uri.parse(Urls.newsUrl(1, 10, "ar")))).thenAnswer(
-          (realInvocation) async => http.Response('Not Found', 404));
+      when(mockHttpClient.get(Uri.parse(Urls.newsUrl(1, 10, "ar")),
+              headers: Urls.headers))
+          .thenAnswer(
+              (realInvocation) async => http.Response('Not Found', 404));
 
       //act
       final res = dataSource.getNewsArticles(1, 10, "ar");

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interviewtask/presentation/bloc/news_article_bloc.dart';
@@ -5,9 +6,21 @@ import 'injection.dart' as di;
 
 import 'presentation/pages/articles_list_page.dart';
 
-void main() {
+void main() async {
   di.init();
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  runApp(
+    EasyLocalization(
+        supportedLocales: const [
+          Locale('en'),
+          Locale('ar'),
+        ],
+        path: 'assets/translations',
+        useOnlyLangCode: true,
+        fallbackLocale: const Locale('en', 'US'),
+        child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -22,7 +35,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const ArticlesListPage(),
+        home: ArticlesListPage(
+          languageCode: context.deviceLocale.languageCode,
+        ),
       ),
     );
   }

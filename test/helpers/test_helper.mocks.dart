@@ -3,8 +3,8 @@
 // Do not manually edit this file.
 
 import 'dart:async' as _i5;
-import 'dart:convert' as _i8;
-import 'dart:typed_data' as _i9;
+import 'dart:convert' as _i9;
+import 'dart:typed_data' as _i10;
 
 import 'package:http/http.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
@@ -46,7 +46,7 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
   _i5.Future<_i3.Response> post(Uri? url,
           {Map<String, String>? headers,
           Object? body,
-          _i8.Encoding? encoding}) =>
+          _i9.Encoding? encoding}) =>
       (super.noSuchMethod(
               Invocation.method(#post, [url],
                   {#headers: headers, #body: body, #encoding: encoding}),
@@ -56,7 +56,7 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
   _i5.Future<_i3.Response> put(Uri? url,
           {Map<String, String>? headers,
           Object? body,
-          _i8.Encoding? encoding}) =>
+          _i9.Encoding? encoding}) =>
       (super.noSuchMethod(
               Invocation.method(#put, [url],
                   {#headers: headers, #body: body, #encoding: encoding}),
@@ -66,7 +66,7 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
   _i5.Future<_i3.Response> patch(Uri? url,
           {Map<String, String>? headers,
           Object? body,
-          _i8.Encoding? encoding}) =>
+          _i9.Encoding? encoding}) =>
       (super.noSuchMethod(
               Invocation.method(#patch, [url],
                   {#headers: headers, #body: body, #encoding: encoding}),
@@ -76,7 +76,7 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
   _i5.Future<_i3.Response> delete(Uri? url,
           {Map<String, String>? headers,
           Object? body,
-          _i8.Encoding? encoding}) =>
+          _i9.Encoding? encoding}) =>
       (super.noSuchMethod(
               Invocation.method(#delete, [url],
                   {#headers: headers, #body: body, #encoding: encoding}),
@@ -87,12 +87,12 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
       (super.noSuchMethod(Invocation.method(#read, [url], {#headers: headers}),
           returnValue: Future<String>.value('')) as _i5.Future<String>);
   @override
-  _i5.Future<_i9.Uint8List> readBytes(Uri? url,
+  _i5.Future<_i10.Uint8List> readBytes(Uri? url,
           {Map<String, String>? headers}) =>
       (super.noSuchMethod(
               Invocation.method(#readBytes, [url], {#headers: headers}),
-              returnValue: Future<_i9.Uint8List>.value(_i9.Uint8List(0)))
-          as _i5.Future<_i9.Uint8List>);
+              returnValue: Future<_i10.Uint8List>.value(_i10.Uint8List(0)))
+          as _i5.Future<_i10.Uint8List>);
   @override
   _i5.Future<_i3.StreamedResponse> send(_i3.BaseRequest? request) =>
       (super.noSuchMethod(Invocation.method(#send, [request]),

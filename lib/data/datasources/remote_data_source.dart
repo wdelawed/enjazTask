@@ -18,14 +18,9 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<List<NewsArticleModel>> getNewsArticles(
       int page, int size, String langCode) async {
-    final headers = {
-      "X-Bingapis-Sdk": "true",
-      "X-Rapidapi-Host": "bing-news-search1.p.rapidapi.com",
-      "X-Rapidapi-Key": "f687dab62fmshc171d898406e172p109811jsn83513c078041",
-      "Host": "bing-news-search1.p.rapidapi.com"
-    };
-    final response = await client
-        .get(Uri.parse(Urls.newsUrl(page, size, langCode)), headers: headers);
+    final response = await client.get(
+        Uri.parse(Urls.newsUrl(page, size, langCode)),
+        headers: Urls.headers);
 
     if (response.statusCode == 200) {
       return (json.decode(response.body)["value"] as List)

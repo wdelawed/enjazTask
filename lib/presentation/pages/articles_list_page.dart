@@ -6,9 +6,12 @@ import 'package:interviewtask/presentation/bloc/news_article_bloc.dart';
 import 'package:interviewtask/presentation/bloc/news_article_event.dart';
 import 'package:interviewtask/presentation/bloc/news_article_state.dart';
 import 'package:interviewtask/presentation/pages/article_details_page.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ArticlesListPage extends StatefulWidget {
-  const ArticlesListPage({Key? key}) : super(key: key);
+  final String languageCode;
+  const ArticlesListPage({Key? key, required this.languageCode})
+      : super(key: key);
 
   @override
   State<ArticlesListPage> createState() => _ArticlesListPageState();
@@ -42,26 +45,22 @@ class _ArticlesListPageState extends State<ArticlesListPage> {
         }
       }
     });
-    BlocProvider.of<NewsArticleBloc>(context)
-        .add(OnLoadNewsPage(pageNo: 0, pageSize: 20, languageCode: "en"));
+    BlocProvider.of<NewsArticleBloc>(context).add(OnLoadNewsPage(
+        pageNo: 0, pageSize: 12, languageCode: widget.languageCode));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<NewsArticleBloc, NewsArticlesState>(
-      listener: (_, state) {
+      listener: (_, state) async {
         if (state is NewsArticlesHasData) {
-          int index = articles.length;
-          state.articles.forEach((element) async {
-            await Future.delayed(
-              const Duration(milliseconds: 500),
-            );
-            articles.add(element);
-            _key.currentState!.insertItem(index);
-            index += 1;
-          });
-
+          for (int i = 0; i < state.articles.length; i++) {
+            await Future.delayed(const Duration(milliseconds: 100));
+            articles.add(state.articles[i]);
+            _key.currentState!
+                .insertItem(i, duration: const Duration(milliseconds: 100));
+          }
           setState(() {
             showLoading = false;
           });
@@ -69,7 +68,9 @@ class _ArticlesListPageState extends State<ArticlesListPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("News Articles"),
+          title: Text(context.deviceLocale.languageCode == "ar"
+              ? "عناوين الاخبار"
+              : "News Articles"),
         ),
         body: SizedBox(
           width: MediaQuery.of(context).size.width,
