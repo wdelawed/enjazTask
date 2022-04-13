@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:interviewtask/domain/usecases/get_current_weather.dart';
+import 'package:interviewtask/domain/usecases/get_news_articles.dart';
 import 'package:interviewtask/presentation/bloc/news_article_event.dart';
 import 'package:interviewtask/presentation/bloc/news_article_state.dart';
 
